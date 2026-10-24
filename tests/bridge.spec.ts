@@ -1,0 +1,20 @@
+import { describe, expect, it } from 'vitest'
+import { bridgeRequest, promptFor } from '../src/client/DesignSessionBridge.js'
+
+describe('HuaHua Design session bridge', () => {
+  it('accepts only the versioned create and branch protocol', () => {
+    expect(bridgeRequest({ type: 'design:dsh-submit', version: 1, requestId: 'r1', action: 'create', projectId: 'p', rootId: 'root', nodeIds: ['n1', 'n2', 'n3'], prompt: '做海报', count: 3 }))
+      .toMatchObject({ action: 'create', count: 3 })
+    expect(bridgeRequest({ type: 'design:dsh-submit', version: 1, requestId: 'r2', action: 'branch', projectId: 'p', nodeId: 'n', nodeIds: ['b1', 'b2'], nodeTitle: 'A', prompt: '深色', count: 2 }))
+      .toMatchObject({ action: 'branch', nodeId: 'n' })
+    expect(bridgeRequest({ type: 'design:dsh-submit', version: 1, requestId: 'r3', action: 'create', prompt: 'x', count: 6 })).toBeNull()
+    expect(bridgeRequest({ type: 'design:dsh-submit', version: 1, requestId: 'r4', action: 'create', prompt: 'x', count: 2 })).toBeNull()
+  })
+
+  it('turns UI intents into explicit model instructions', () => {
+    expect(promptFor({ type: 'design:dsh-submit', version: 1, requestId: 'r1', action: 'create', projectId: 'p1', rootId: 'root1', nodeIds: ['n1', 'n2', 'n3'], prompt: '三版海报', count: 3 }))
+      .toContain('占位节点：n1、n2、n3')
+    expect(promptFor({ type: 'design:dsh-submit', version: 1, requestId: 'r2', action: 'branch', projectId: 'p1', nodeId: 'n1', nodeIds: ['b1', 'b2'], nodeTitle: '方案 A', prompt: '改成深色', count: 2 }))
+      .toContain('分支占位节点：b1、b2')
+  })
+})

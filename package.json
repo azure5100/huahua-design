@@ -1,0 +1,111 @@
+{
+  "name": "huahua-design",
+  "version": "0.1.0",
+  "description": "设计部（huahua-design）— DeepSeek Harness 的原生创意分支画布：把 Agent 生成的多个方案组织成可实时分叉的创意树",
+  "license": "MIT",
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "app/dist",
+    "media",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-theme",
+        "@deepseek-ai/dsh-client-ui-tool"
+      ],
+      "platform": "web"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azure5100/huahua-design.git"
+  },
+  "homepage": "https://github.com/azure5100/huahua-design#readme",
+  "bugs": {
+    "url": "https://github.com/azure5100/huahua-design/issues"
+  },
+  "keywords": [
+    "deepseek",
+    "dsh",
+    "dsh-plugin",
+    "design",
+    "canvas",
+    "creative"
+  ],
+  "scripts": {
+    "build": "npm run build:app && npm run build:plugin",
+    "build:app": "npm --workspace huahua-design-web-runtime run build",
+    "build:plugin": "node scripts/build-plugin.mjs && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit && npm --workspace huahua-design-web-runtime run typecheck",
+    "test": "vitest run && npm --workspace huahua-design-web-runtime test",
+    "check": "npm run typecheck && npm test && npm run build && npm pack --dry-run",
+    "dev:app": "npm --workspace huahua-design-web-runtime run dev"
+  },
+  "workspaces": [
+    "app"
+  ],
+  "dependencies": {
+    "@deepseek-ai/schemastery": "^3.18.1"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-client-locale": ">=0.1.0-rc.2 <0.3.0",
+    "@deepseek-ai/dsh-client-ui-conversation": ">=0.1.0-rc.2 <0.3.0",
+    "@deepseek-ai/dsh-client-ui-layout": ">=0.1.0-rc.2 <0.3.0",
+    "@deepseek-ai/dsh-client-ui-sidebar": ">=0.1.0-rc.2 <0.3.0",
+    "@deepseek-ai/dsh-client-ui-theme": ">=0.1.0-rc.2 <0.3.0",
+    "@deepseek-ai/dsh-client-ui-slots": ">=0.1.0-rc.2 <0.3.0",
+    "@deepseek-ai/dsh-client-ui-tool": ">=0.1.0-rc.2 <0.3.0",
+    "@deepseek-ai/dsh-system-prompt": ">=0.1.0-rc.2 <0.3.0",
+    "@deepseek-ai/dsh-tools": ">=0.1.0-rc.2 <0.3.0",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-client-locale": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-conversation": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-layout": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-sidebar": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-theme": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-slots": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-tool": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-system-prompt": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-tools": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-util-values": "0.1.2-rc.1",
+    "@types/node": "^22.18.0",
+    "@types/react": "^18.3.0",
+    "esbuild": "^0.28.0",
+    "react": "^18.3.1",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.0"
+  }
+}

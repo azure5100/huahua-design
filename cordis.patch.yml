@@ -1,0 +1,8 @@
+# Design bundle: starts the loopback canvas and registers the model-facing tools.
+- insert:
+    - id: design
+      name: 'huahua-design'
+      config:
+        port: 9531
+        startupTimeoutMs: 5000
+        shutdownTimeoutMs: 3000
